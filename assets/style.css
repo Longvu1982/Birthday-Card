@@ -1,0 +1,128 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lemonada", cursive;
+  font-size: 25px;
+  font-weight: 600;
+  min-width: 100%;
+  background-image: linear-gradient(to right, #fc5c7d, #6a82fb);
+  padding: 0 20px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.volume-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.volume-btn img {
+  height: 100%;
+}
+.volume-btn:hover {
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.274));
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 400px;
+  aspect-ratio: 1/1.4;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform: perspective(1000px);
+  transition: all 0.2s ease-in;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+.card-front {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  background-image: url("./imgs/cover.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: all 0.3s ease-in-out;
+  transform-origin: left;
+  z-index: 3;
+}
+.card-back {
+  position: absolute;
+  z-index: 1;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.card-back img {
+  box-shadow: inset 3px 0px 10px rgba(0, 0, 0, 0.164);
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  transition: 0.8s all ease-in-out;
+}
+.card-back p {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 20px;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: normal;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 27px;
+  opacity: 0;
+  transition: all 0.8s ease-in;
+}
+.card-back p b {
+  font-size: 14px;
+}
+.card-back p span {
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+}
+.card:hover, .card:active {
+  transform: perspective(1000px) translateX(50%);
+}
+.card:hover .card-front, .card:active .card-front {
+  transform: rotateY(-165deg);
+  opacity: 0.5;
+}
+.card:hover .card-back img, .card:active .card-back img {
+  opacity: 0.3;
+}
+.card:hover .card-back p, .card:active .card-back p {
+  opacity: 1;
+}
+@media (max-width: 600px) {
+  .card:hover, .card:active {
+    transform: perspective(1000px) translateX(0px);
+  }
+  .card p {
+    font-size: 10px;
+  }
+}
+@media (max-width: 400px) {
+  .card p {
+    line-height: 21px;
+  }
+}/*# sourceMappingURL=style.css.map */
