@@ -13,9 +13,107 @@ body {
   padding: 0 20px;
   height: 100vh;
   display: flex;
+  overflow: hidden;
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+.show-btn {
+  display: none;
+  width: 80px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px solid #fff;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  translate: -50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.show-btn::before {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  border-radius: 50%;
+  background-color: white;
+  top: 3px;
+  transition: all 0.9s ease;
+  left: 3px;
+}
+@media screen and (max-width: 800px) {
+  .show-btn {
+    top: 40px;
+  }
+}
+
+input {
+  display: none;
+}
+
+input:checked + .show-btn {
+  background-color: #727ff3;
+}
+input:checked + .show-btn::before {
+  transform: translateX(40px);
+}
+
+.bubble-section {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bubble-section span {
+  position: absolute;
+  background-color: transparent;
+  bottom: 50px;
+  border-radius: 50%;
+  -webkit-animation: animate 3s linear infinite;
+          animation: animate 3s linear infinite;
+  pointer-events: none;
+  box-shadow: inset 5px 0px 10px #e47d91, inset 0px -5px 10px #7283d6;
+}
+.bubble-section span::before {
+  content: "";
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  transform: translate(-130%, -130%);
+  top: 50%;
+  left: 50%;
+  background: radial-gradient(#fff, transparent);
+  border-radius: 50%;
+}
+@-webkit-keyframes animate {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  98% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-1200%);
+    opacity: 0;
+  }
+}
+@keyframes animate {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  98% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-1200%);
+    opacity: 0;
+  }
 }
 
 .volume-btn {
@@ -25,14 +123,66 @@ body {
   width: 40px;
   height: 40px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 100;
 }
 .volume-btn img {
   height: 100%;
 }
 .volume-btn:hover {
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.274));
+  transform: scale(1.04);
+  filter: brightness(1.1);
+}
+@media screen and (max-width: 800px) {
+  .volume-btn {
+    top: 30px;
+  }
 }
 
+.arrow-icon {
+  z-index: 100;
+  position: absolute;
+  top: 40px;
+  left: 120px;
+  width: 0px;
+  overflow: hidden;
+  -webkit-animation: blink 1.5s ease-in-out infinite;
+          animation: blink 1.5s ease-in-out infinite;
+  transform-origin: right right;
+  width: 50px;
+  height: 40px;
+}
+.arrow-icon img {
+  position: absolute;
+  top: 0px;
+  left: -100%;
+  width: 50px;
+  height: 40px;
+  -webkit-animation: blink-child 1.5s ease-in-out infinite;
+          animation: blink-child 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes blink {
+  100% {
+    left: 70px;
+  }
+}
+
+@keyframes blink {
+  100% {
+    left: 70px;
+  }
+}
+@-webkit-keyframes blink-child {
+  100% {
+    left: 0;
+  }
+}
+@keyframes blink-child {
+  100% {
+    left: 0;
+  }
+}
 .card {
   display: flex;
   justify-content: center;
@@ -42,9 +192,14 @@ body {
   aspect-ratio: 1/1.4;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  transform: perspective(1000px);
-  transition: all 0.2s ease-in;
+  perspective: 1000px;
+  transform: translate(0, 150%);
+  transition: all 0.7s ease-in;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.card.show {
+  transform: translate(0, 0);
 }
 .card-front {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -58,7 +213,7 @@ body {
   position: absolute;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.7s ease-in-out;
   transform-origin: left;
   z-index: 3;
 }
@@ -100,22 +255,22 @@ body {
   width: 100%;
   text-align: right;
 }
-.card:hover, .card:active {
-  transform: perspective(1000px) translateX(50%);
+.card.open {
+  translate: 50%;
 }
-.card:hover .card-front, .card:active .card-front {
+.card.open .card-front {
   transform: rotateY(-165deg);
   opacity: 0.5;
 }
-.card:hover .card-back img, .card:active .card-back img {
+.card.open .card-back img {
   opacity: 0.3;
 }
-.card:hover .card-back p, .card:active .card-back p {
+.card.open .card-back p {
   opacity: 1;
 }
 @media (max-width: 600px) {
-  .card:hover, .card:active {
-    transform: perspective(1000px) translateX(0px);
+  .card.open {
+    translate: 0px;
   }
   .card p {
     font-size: 10px;
